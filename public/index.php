@@ -2,6 +2,9 @@
 
 use App\Kernel;
 
+if (PHP_SESSION_NONE === session_status()) {
+    session_start();
+}
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
 return function (array $context) {

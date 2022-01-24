@@ -11,6 +11,16 @@ use Doctrine\ORM\Mapping as ORM;
 class Property
 {
     /**
+    public function __construct(){
+       $this->created_at = new \DateTime();
+    }
+     * **/
+
+    Const HEAT = [
+         0 => 'electric',
+         1 => 'gaz'
+    ];
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -21,12 +31,7 @@ class Property
      * @ORM\Column(type="string", length=255)
      */
     private $title;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $text;
-
+    
     /**
      * @ORM\Column(type="integer")
      */
@@ -75,12 +80,17 @@ class Property
     /**
      * @ORM\Column(type="integer")
      */
-    private $sold;
+    private $sold = false;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      */
     private $created_at;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
 
     public function getId(): ?int
     {
@@ -95,18 +105,6 @@ class Property
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getText(): ?string
-    {
-        return $this->text;
-    }
-
-    public function setText(string $text): self
-    {
-        $this->text = $text;
 
         return $this;
     }
@@ -239,6 +237,18 @@ class Property
     public function setCreatedAt(\DateTimeImmutable $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
