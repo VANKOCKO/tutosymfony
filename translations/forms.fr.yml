@@ -1,0 +1,12 @@
+## YAML Template.
+---
+City: Ville
+Title: Titre
+Address: Adresse 
+Floor : Etage
+Heat: Chauffage
+Price: Prix
+Rooms: Pieces
+Bedrooms: chambres
+Postal code : Code Postale
+Sold : Achat
