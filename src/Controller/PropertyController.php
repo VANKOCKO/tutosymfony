@@ -48,7 +48,6 @@ class PropertyController extends AbstractController {
        */
         //$repository = $this->getDoctrine()->getRepository(Property::class);
         //$property = $this->repository->findAllVisible();
-        //$property = $this->repository->findAllVisible();
         //$sold = $property[0]->setPrice(30000);
         //$this->em->flush($sold);
         //dump($property[0]);
@@ -57,5 +56,25 @@ class PropertyController extends AbstractController {
                 [   
                      'current_menu' =>  'properties'
                 ]);
+    }
+
+    /**
+     * @Route("/biens/{slug}-{id}", name="property.show", requirements={"slug" : "[a-z0-9\-]*"})
+     * @return Response
+     */
+    public function show($id,$slug) : Response {
+ 
+      $property = $this->repository->find($id);
+      if($property->getSlug() !== $slug){
+         return  $this->redirectToRoute('property.show',[
+                 'id' => $property->getId(),
+                 'slug' => $property->getSlug()
+          ],301);
+      }
+      return $this->render(
+            'property/show.html.twig', array(
+            'property' => $property,
+            'current_menu' => 'properties',
+      ));
     }
 }
