@@ -23,15 +23,33 @@ class AdminPropertyController extends AbstractController {
     } 
    /**
      *@Route("/admin", name="admin.property.index") 
-    */
+   */
    public function index() {
        $properties = $this->repository->findAll();
        return $this->render('admin/property/index.html.twig',[
               'properties' => $properties
        ]);
-   } 
+   }
+    /**
+     *@Route("/admin/property/create", name="admin.property.new") 
+    */
+   public function new(Request $request) {
+       $property = new Property();
+       $form = $this->createForm(PropertyType::class,$property);
+       $form->handleRequest($request);
+       if($form->isSubmitted() && $form->isValid()){
+           $this->em->persist($property);
+           $this->em->flush();
+           return $this->redirectToRoute('admin.property.index');
+       }
+       $properties = $this->repository->findAll();
+       return $this->render('admin/property/new.html.twig',[
+              'properties' => $properties,
+              'form' =>$form->createView()
+       ]);
+   }
    /**
-    *@Route("/admin/{id}", name="admin.property.edit") 
+    *@Route("/admin/property/{id}", name="admin.property.edit") 
     */
    public function edit($id,Request $request) {
        $property = $this->repository->find($id);
@@ -45,5 +63,6 @@ class AdminPropertyController extends AbstractController {
               'property'=>$property,
               'form' =>$form->createView()
        ]);  
-   } 
+   }
+   
 }
