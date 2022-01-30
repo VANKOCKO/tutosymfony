@@ -16,14 +16,19 @@
                     <tr>
                         <td>{{ property.title }}</td> 
                         <td>
-                            <a href="{{ path('admin.property.edit',{id:property.id}) }}" class="btn btn-secondary">Editer</a>
+                            <a  href="{{ path('admin.property.edit',{id:property.id}) }}" class="btn btn-secondary">Editer</a>
+                            <form method="POST" action="{{path('admin.property.delete',{id:property.id})}}" style="display:inline-block">
+                                <input type="hidden" name="_method" valeur="DELETE">
+                                <button class="btn btn-danger">Supprimer</button>
+                            </form>
                         </td>
                     </tr>  
                 {% endfor %}      
             </tbody>
-        </table>
+        </td>
+        <div class="text-right">
+            <a href="{{ path('admin.property.new') }}" class="btn btn-primary">Creer un nouveau bien</a>
+        </div>
     </div>
-             
-    
 {% endblock %}
     

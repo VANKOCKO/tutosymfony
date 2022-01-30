@@ -8,6 +8,7 @@ use App\Entity\Property;
 use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Description of AdminPropertyController
  *
@@ -38,6 +39,8 @@ class AdminPropertyController extends AbstractController {
        $form = $this->createForm(PropertyType::class,$property);
        $form->handleRequest($request);
        if($form->isSubmitted() && $form->isValid()){
+           $date = new \DateTimeImmutable('now');
+           $property->setCreatedAt($date);
            $this->em->persist($property);
            $this->em->flush();
            return $this->redirectToRoute('admin.property.index');
@@ -49,7 +52,7 @@ class AdminPropertyController extends AbstractController {
        ]);
    }
    /**
-    *@Route("/admin/property/{id}", name="admin.property.edit") 
+    *@Route("/admin/property/{id}", name="admin.property.edit",methods="POST") 
     */
    public function edit($id,Request $request) {
        $property = $this->repository->find($id);
@@ -63,6 +66,16 @@ class AdminPropertyController extends AbstractController {
               'property'=>$property,
               'form' =>$form->createView()
        ]);  
+   }
+   /**
+    * @Route("/admin/property/delete/{id}", name="admin.property.delete", methods="POST")
+    * @return Response
+   */
+   public function delete($id,Request $request) {
+       $property = $this->repository->find($id);
+       $this->em->remove($property);
+       $this->em->flush();
+       return $this->redirectToRoute('admin.property.index');
    }
    
 }
