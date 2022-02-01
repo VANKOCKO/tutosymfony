@@ -43,6 +43,7 @@ class AdminPropertyController extends AbstractController {
            $property->setCreatedAt($date);
            $this->em->persist($property);
            $this->em->flush();
+           $this->addFlash('success','Bien creer avec succes');
            return $this->redirectToRoute('admin.property.index');
        }
        $properties = $this->repository->findAll();
@@ -52,7 +53,7 @@ class AdminPropertyController extends AbstractController {
        ]);
    }
    /**
-    *@Route("/admin/property/{id}", name="admin.property.edit",methods="POST") 
+    *@Route("/admin/property/{id}", name="admin.property.edit") 
     */
    public function edit($id,Request $request) {
        $property = $this->repository->find($id);
@@ -60,6 +61,7 @@ class AdminPropertyController extends AbstractController {
        $form->handleRequest($request);
        if($form->isSubmitted() && $form->isValid()){
            $this->em->flush();
+           $this->addFlash('success','Bien modifie avec succes');
            return $this->redirectToRoute('admin.property.index');
        }
        return $this->render('admin/property/edit.html.twig', [
@@ -75,6 +77,7 @@ class AdminPropertyController extends AbstractController {
        $property = $this->repository->find($id);
        $this->em->remove($property);
        $this->em->flush();
+       $this->addFlash('success','Bien supprimer avec succes');
        return $this->redirectToRoute('admin.property.index');
    }
    
